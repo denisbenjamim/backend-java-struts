@@ -44,14 +44,18 @@ public class ImportarTransacaoService {
                 throw new DataImportacaoJaRealizadaException(MessageFormat.format("Já foi realizada importação para data {0,date,short}", data));
             }
 
-            transacoes.stream()
-                .filter(tr -> tr.getDataTransacao().equals(dataTransacaoBase))
-                .forEach(tr -> {
-                    importar(tr);
-                });
+            transacoes.stream().filter(tr -> tr.getDataTransacao().equals(dataTransacaoBase)).forEach(tr -> importar(tr));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<ImportarTransacao> todas(){
+        return repository.findAll();
+    }
+
+    public List<ImportarTransacao> todasOrdenadasPorDataTransacaoDesc(){
+        return repository.findAllByOrderByDataTransacaoDesc();
     }
 
     private void exibirNomeETamanhoArquivoCarregado(MultipartFile file) {

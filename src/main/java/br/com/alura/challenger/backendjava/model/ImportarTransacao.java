@@ -10,12 +10,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "tb_importar_transacao")
 public class ImportarTransacao {
@@ -37,6 +40,8 @@ public class ImportarTransacao {
     private LocalDateTime dataHoraTransacao;
     private LocalDate dataTransacao;
     private LocalTime horaTransacao;
+    
+    private LocalDateTime dataHoraImportacao;
 
     public ImportarTransacao(String[] dados) throws CampoInvalidoException {
         this.bancoOrigem = validarCampo(dados[0]);
@@ -56,5 +61,10 @@ public class ImportarTransacao {
             throw new CampoInvalidoException(MessageFormat.format("O campo {0} é invalido.", campo));
 
         return campo;
+    }
+
+    @PrePersist
+    private void prePersist(){
+        this.dataHoraImportacao = LocalDateTime.now();
     }
 }

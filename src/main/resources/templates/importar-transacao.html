@@ -12,17 +12,39 @@
 <body class="container">
     <form enctype="multipart/form-data" method="post">
         <div class="col col-sm-6 offset-sm-3 mt-5">
-            <div class="input-group">
-                <input type="file" name="file" required accept=".csv" class="form-control" id="inputGroupFile02">
-                
-                <label class="input-group-text" for="inputGroupFile02">Upload</label>
-            </div>
+          <h1 class="text-center">IMPORTAR TRANSAÇÕES</h1>
 
-            <span class="text-secondary">Selecione o arquivo para realizar upload</span>
+          <div class="input-group">
+              <input type="file" name="file" required accept=".csv" class="form-control" id="inputGroupFile02">
+              
+              <label class="input-group-text" for="inputGroupFile02">Upload</label>
+          </div>
 
-            <br>
+          <span class="text-secondary">Selecione o arquivo para realizar upload</span>
 
-            <button class="btn btn-primary mt-3">Importar</button>
+          <br>
+
+          <button class="btn btn-primary mt-3">Importar</button>
+          
+          <hr>
+
+          <h2 class="text-center">IMPORTAR REALIZADAS</h2>
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>DATA TRANSAÇOES</th>
+                <th>DATA IMPORTAÇÕES</th>
+              </tr>
+            </thead>
+              <tr th:each="transacao : ${importacoes}">
+                <td th:text="${{transacao.dataTransacao}}"></td>
+                <td th:text="${#temporals.format(transacao.dataHoraImportacao, 'dd/MM/yyyy - HH:mm:ss')}"></td>
+              </tr>
+            <tbody>
+
+            </tbody>
+          </table>
         </div>
     </form>
 

@@ -24,7 +24,8 @@ public class ImportarTransacaoController {
 
     @GetMapping
     public ModelAndView get(){
-        return new ModelAndView("importar-transacao.html");
+        return new ModelAndView("importar-transacao.html")
+                    .addObject("importacoes", service.todasOrdenadasPorDataTransacaoDesc());
     }
 
     @PostMapping
@@ -34,7 +35,6 @@ public class ImportarTransacaoController {
         }catch(ArquivoImportacaoVazioException | DataImportacaoJaRealizadaException e){
             redirectAttributes.addFlashAttribute("erroImportacao", e.getMessage());
         }
-        
         return "redirect:/importarTransacao";
     }
 }
