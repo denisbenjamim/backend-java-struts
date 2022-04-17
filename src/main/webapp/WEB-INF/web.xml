@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
+  <display-name>backend-java-struts2</display-name>
+  	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>br.com.alura.challenger.backendjava.config.SpringData</param-value>
+	</context-param>	
+
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+	</context-param>
+
+ 	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
+		<init-param>
+			<param-name>struts.devMode</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>struts.ui.theme</param-name>
+			<param-value>simple</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>struts.action.extension</param-name>
+			<param-value>,</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>struts.action.excludePattern</param-name>
+			<param-value>/webjars/.*</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>struts.multipart.parser</param-name>
+			<param-value>jakarta-stream</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>struts.multipart.maxSize</param-name>
+			<param-value>2000000</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>struts.objectFactory</param-name>
+			<param-value>spring</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>struts2</filter-name>	
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+		
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+</web-app>

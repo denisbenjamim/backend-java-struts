@@ -9,9 +9,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import br.com.alura.challenger.backendjava.model.ImportarTransacao;
+import br.com.alura.challenger.backendjava.model.MultiPartFile;
 import br.com.alura.challenger.backendjava.repository.ImportarTransacaoRepository;
 import br.com.alura.challenger.backendjava.utils.LerArquivoImportarTransacao;
 import br.com.alura.challenger.backendjava.utils.ManipularArquivo;
@@ -26,11 +26,11 @@ public class ImportarTransacaoService {
         repository.save(importarTransacao);
     }
 
-    public void processarArquivo(MultipartFile file) throws ArquivoImportacaoVazioException, DataImportacaoJaRealizadaException{
-        exibirNomeETamanhoArquivoCarregado(file);
+    public void processarArquivo(MultiPartFile multiPartFile) throws ArquivoImportacaoVazioException, DataImportacaoJaRealizadaException{
+        exibirNomeETamanhoArquivoCarregado(multiPartFile);
         
         try {
-            ManipularArquivo<ImportarTransacao> arquivo = new LerArquivoImportarTransacao(file.getBytes(), ",");
+            ManipularArquivo<ImportarTransacao> arquivo = new LerArquivoImportarTransacao(multiPartFile.getBytes(), ",");
             List<ImportarTransacao> transacoes = arquivo.get();
 
             if(transacoes.isEmpty()){
@@ -58,10 +58,10 @@ public class ImportarTransacaoService {
         return repository.findAllByOrderByDataTransacaoDesc();
     }
 
-    private void exibirNomeETamanhoArquivoCarregado(MultipartFile file) {
-        String nomeArquivo = file.getOriginalFilename();
-        double tamanhoArquivo = convertTamanhoParaMB(file.getSize()) ;
-        System.out.println(MessageFormat.format("Nome: {0} - Tamanho: {1} Mb", nomeArquivo, tamanhoArquivo ));
+    private void exibirNomeETamanhoArquivoCarregado(MultiPartFile multiPartFile) {
+       String nomeArquivo = multiPartFile.getName();
+       double tamanhoArquivo = convertTamanhoParaMB(multiPartFile.size()) ;
+       System.out.println(MessageFormat.format("Nome: {0} - Tamanho: {1} Mb", nomeArquivo, tamanhoArquivo ));
     }
 
     private double convertTamanhoParaMB(long tamanho) {

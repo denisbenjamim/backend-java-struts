@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class ImportarTransacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long rowId;
     private String bancoOrigem;
     private String agenciaOrigem;
@@ -66,5 +67,13 @@ public class ImportarTransacao {
     @PrePersist
     private void prePersist(){
         this.dataHoraImportacao = LocalDateTime.now();
+    }
+
+    public String getDataTransacaoFormtado(){
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(dataTransacao);
+    }
+
+    public String getDataHoraImportacaoFormtado(){
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss").format(dataHoraImportacao);
     }
 }
