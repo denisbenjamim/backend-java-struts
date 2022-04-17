@@ -44,17 +44,21 @@ public class ImportarTransacao {
     
     private LocalDateTime dataHoraImportacao;
 
-    public ImportarTransacao(String[] dados) throws CampoInvalidoException {
-        this.bancoOrigem = validarCampo(dados[0]);
-        this.agenciaOrigem = validarCampo(dados[1]);
-        this.contaOrigem = validarCampo(dados[2]);
-        this.bancoDestino = validarCampo(dados[3]);
-        this.agenciaDestino = validarCampo(dados[4]);
-        this.contaDestino = validarCampo(dados[5]);
-        this.valorTransacao = new BigDecimal(validarCampo(dados[6]));
-        this.dataHoraTransacao = LocalDateTime.parse(validarCampo(dados[7]));
-        this.dataTransacao = this.dataHoraTransacao.toLocalDate();
-        this.horaTransacao = this.dataHoraTransacao.toLocalTime();
+    public ImportarTransacao(String[] dados) throws CampoInvalidoException, CSVInvalidoException {
+        try{
+            this.bancoOrigem = validarCampo(dados[0]);
+            this.agenciaOrigem = validarCampo(dados[1]);
+            this.contaOrigem = validarCampo(dados[2]);
+            this.bancoDestino = validarCampo(dados[3]);
+            this.agenciaDestino = validarCampo(dados[4]);
+            this.contaDestino = validarCampo(dados[5]);
+            this.valorTransacao = new BigDecimal(validarCampo(dados[6]));
+            this.dataHoraTransacao = LocalDateTime.parse(validarCampo(dados[7]));
+            this.dataTransacao = this.dataHoraTransacao.toLocalDate();
+            this.horaTransacao = this.dataHoraTransacao.toLocalTime();
+        }catch(ArrayIndexOutOfBoundsException exception){
+            throw new CSVInvalidoException("O arquivo csv não esta no padrão esperado");
+        }
     }
 
     private String validarCampo(String campo) throws CampoInvalidoException {

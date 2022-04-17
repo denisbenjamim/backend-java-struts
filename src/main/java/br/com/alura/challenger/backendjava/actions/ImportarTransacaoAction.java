@@ -10,6 +10,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.com.alura.challenger.backendjava.model.CSVInvalidoException;
 import br.com.alura.challenger.backendjava.model.ImportarTransacao;
 import br.com.alura.challenger.backendjava.model.MultiPartFile;
 import br.com.alura.challenger.backendjava.service.ArquivoImportacaoVazioException;
@@ -53,7 +54,7 @@ public class ImportarTransacaoAction extends ActionSupport{
     public String upload(){
         try{
             service.processarArquivo(multiPartFile);
-        }catch(ArquivoImportacaoVazioException | DataImportacaoJaRealizadaException e){
+        }catch(ArquivoImportacaoVazioException | DataImportacaoJaRealizadaException | CSVInvalidoException e){
            erroImportacao = e.getMessage();
         }
        
