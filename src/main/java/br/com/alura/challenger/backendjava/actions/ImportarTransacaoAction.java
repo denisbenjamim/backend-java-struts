@@ -11,11 +11,11 @@ import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.alura.challenger.backendjava.model.CSVInvalidoException;
-import br.com.alura.challenger.backendjava.model.ImportarTransacao;
-import br.com.alura.challenger.backendjava.model.MultiPartFile;
+import br.com.alura.challenger.backendjava.model.Importacao;
 import br.com.alura.challenger.backendjava.service.ArquivoImportacaoVazioException;
 import br.com.alura.challenger.backendjava.service.DataImportacaoJaRealizadaException;
 import br.com.alura.challenger.backendjava.service.ImportarTransacaoService;
+import br.com.alura.challenger.backendjava.utils.MultiPartFile;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +24,7 @@ public class ImportarTransacaoAction extends ActionSupport{
     private ImportarTransacaoService service;
 
     @Getter
-    private List<ImportarTransacao> importacoes = new ArrayList<>();
+    private List<Importacao> importacoes = new ArrayList<>();
 
     @Getter @Setter
     private String erroImportacao;
@@ -62,7 +62,7 @@ public class ImportarTransacaoAction extends ActionSupport{
     }
 
     private void carregarImportacoesNaLista() {
-        importacoes.addAll(service.todasOrdenadasPorDataTransacaoDesc());
+        importacoes.addAll(service.todasImportacoesOrdendasPorDataTransacaoDesc());
     }
 
     public void setFile(File file){

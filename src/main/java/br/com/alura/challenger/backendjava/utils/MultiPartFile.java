@@ -1,4 +1,4 @@
-package br.com.alura.challenger.backendjava.model;
+package br.com.alura.challenger.backendjava.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,5 +28,9 @@ public class MultiPartFile {
         } catch (IOException e) {
            return null;
         }
+    }
+
+    public boolean isEmpty(){
+        return file.length() == 0;
     }
 }

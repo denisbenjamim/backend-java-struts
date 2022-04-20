@@ -5,13 +5,14 @@ import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -21,11 +22,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_importar_transacao")
-public class ImportarTransacao {
+@Table(name = "tb_transacao")
+public class Transacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long rowId;
     private String bancoOrigem;
     private String agenciaOrigem;
@@ -41,11 +42,14 @@ public class ImportarTransacao {
     private LocalDateTime dataHoraTransacao;
     private LocalDate dataTransacao;
     private LocalTime horaTransacao;
-    
-    private LocalDateTime dataHoraImportacao;
 
-    public ImportarTransacao(String[] dados) throws CampoInvalidoException, CSVInvalidoException {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dt_importacao", nullable = false)
+    private Importacao importacao;
+    
+    public Transacao(String[] dados, Importacao importacao) throws CampoInvalidoException, CSVInvalidoException {
         try{
+            this.importacao = importacao;
             this.bancoOrigem = validarCampo(dados[0]);
             this.agenciaOrigem = validarCampo(dados[1]);
             this.contaOrigem = validarCampo(dados[2]);
@@ -66,18 +70,5 @@ public class ImportarTransacao {
             throw new CampoInvalidoException(MessageFormat.format("O campo {0} é invalido.", campo));
 
         return campo;
-    }
-
-    @PrePersist
-    private void prePersist(){
-        this.dataHoraImportacao = LocalDateTime.now();
-    }
-
-    public String getDataTransacaoFormtado(){
-        return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(dataTransacao);
-    }
-
-    public String getDataHoraImportacaoFormtado(){
-        return DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss").format(dataHoraImportacao);
     }
 }
