@@ -50,9 +50,9 @@
               <tbody>
                 <s:iterator value="importacoes">
                   <tr>
-                    <td><s:property value="dataTransacaoFormtado"/></td>
+                    <td><s:property value="dataTransacoesImportadasFormatada"/></td>
 
-                    <td><s:property value="dataHoraImportacaoFormtado"/></td>
+                    <td><s:property value="dataHoraImportacaoFormatada"/></td>
                   </tr>
                 </s:iterator>
               </tbody>

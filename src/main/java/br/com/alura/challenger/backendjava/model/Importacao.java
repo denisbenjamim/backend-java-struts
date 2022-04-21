@@ -2,6 +2,7 @@ package br.com.alura.challenger.backendjava.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,5 +42,15 @@ public class Importacao {
     @PrePersist
     private void prePersist(){
         this.dataHoraImportacao = LocalDateTime.now();
+    }
+
+    @Transient
+    public String getDataHoraImportacaoFormatada(){
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(dataHoraImportacao);
+    }
+
+    @Transient
+    public String getDataTransacoesImportadasFormatada(){
+        return DateTimeFormatter.ofPattern("dd/MM/yyyy").format(dataTransacoesImportadas);
     }
 }
